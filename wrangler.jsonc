@@ -3,7 +3,7 @@
  * `@startup-api/cloudflare` as an npm dependency.
  *
  * `npm create startup` copies this file into the generated project and fills
- * in the `startup-api-playground` and `http://localhost:8788/` placeholders. Keeping it here,
+ * in the `startup-api-playground` and `http://localhost:8274/` placeholders. Keeping it here,
  * next to the worker source, means the bindings and migrations below always
  * match the version of the package that ships them.
  *
@@ -17,6 +17,10 @@
   "main": "src/index.ts",
   "compatibility_date": "2025-09-27",
   "compatibility_flags": ["global_fetch_strictly_public"],
+  // Not wrangler's default 8787, to avoid clashing with other Workers projects (see README.md).
+  "dev": {
+    "port": 8273,
+  },
   "assets": {
     // Framework assets are synced here from the package on install (see scripts/sync-assets.mjs).
     "directory": "./public",
@@ -48,7 +52,7 @@
   ],
   "vars": {
     // The origin (or other object) this worker proxies back to. Set during `npm create startup`.
-    "ORIGIN_URL": "http://localhost:8788/",
+    "ORIGIN_URL": "http://localhost:8274/",
     // SESSION_SECRET is intentionally left out of source control. Set it as a
     // secret (`wrangler secret put SESSION_SECRET`) or in `.dev.vars` for local dev.
   },

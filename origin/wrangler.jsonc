@@ -1,6 +1,6 @@
 /**
  * The playground's origin app: the "your application" side that the StartupAPI worker proxies to.
- * It runs next to the worker during `npm run dev` (on port 8788) and shows what StartupAPI
+ * It runs next to the worker during `npm run dev` (on port 8274) and shows what StartupAPI
  * forwards to an origin. It is never deployed.
  */
 {
@@ -9,6 +9,6 @@
   "main": "src/index.ts",
   "compatibility_date": "2025-09-27",
   "dev": {
-    "port": 8788,
+    "port": 8274,
   },
 }

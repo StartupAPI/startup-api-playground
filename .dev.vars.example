@@ -10,8 +10,8 @@
 # Signs session cookies. Use a long random string; keep it secret.
 SESSION_SECRET=""
 
-# The origin this worker proxies back to: the playground's origin app (origin/).
-ORIGIN_URL="http://localhost:8788/"
+# ORIGIN_URL is set in wrangler.jsonc to the playground's origin app
+# (http://localhost:8274/). Only set it here to proxy to a different origin.
 
 # --- Admin ----------------------------------------------------------------
 
@@ -20,8 +20,8 @@ ORIGIN_URL="http://localhost:8788/"
 # restart `npm run dev`.
 # ADMIN_IDS=""
 
-# Public HTTPS URL of a tunnel to http://localhost:8787, for logging in with
-# atproto (see README.md). Leave unset when using http://localhost:8787 directly.
+# Public HTTPS URL of a tunnel to http://localhost:8273, for logging in with
+# atproto (see README.md). Leave unset when using http://localhost:8273 directly.
 # AUTH_ORIGIN=""
 
 # --- Auth providers (optional) --------------------------------------------
@@ -29,17 +29,17 @@ ORIGIN_URL="http://localhost:8788/"
 # configured in src/index.ts under `providers`.
 
 # Google — https://console.cloud.google.com/ (APIs & Services > Credentials)
-# Redirect URI: http://localhost:8787/users/auth/google/callback
+# Redirect URI: http://localhost:8273/users/auth/google/callback
 # GOOGLE_CLIENT_ID=""
 # GOOGLE_CLIENT_SECRET=""
 
 # Twitch — https://dev.twitch.tv/console
-# Redirect URI: http://localhost:8787/users/auth/twitch/callback
+# Redirect URI: http://localhost:8273/users/auth/twitch/callback
 # TWITCH_CLIENT_ID=""
 # TWITCH_CLIENT_SECRET=""
 
 # Patreon — https://www.patreon.com/portal/registration/register-clients
-# Redirect URI: http://localhost:8787/users/auth/patreon/callback
+# Redirect URI: http://localhost:8273/users/auth/patreon/callback
 # PATREON_CLIENT_ID=""
 # PATREON_CLIENT_SECRET=""
 # Only needed when Patreon webhook freshness is enabled in src/index.ts.

@@ -4,10 +4,12 @@ A local test site for developing [StartupAPI](https://startupapi.com). It runs y
 
 It has two parts, which `npm run dev` starts together:
 
-- **The StartupAPI worker** ([src/index.ts](src/index.ts)) on http://localhost:8787. Its config turns on the framework's features with sample settings: login providers, feature flags, plans and an access policy.
-- **An origin app** ([origin/src/index.ts](origin/src/index.ts)) on http://localhost:8788: the "your application" side the worker proxies to. Each page lists the `X-StartupAPI-*` headers it received, so you can see what the framework forwards.
+- **The StartupAPI worker** ([src/index.ts](src/index.ts)) on http://localhost:8273. Its config turns on the framework's features with sample settings: login providers, feature flags, plans and an access policy.
+- **An origin app** ([origin/src/index.ts](origin/src/index.ts)) on http://localhost:8274: the "your application" side the worker proxies to. Each page lists the `X-StartupAPI-*` headers it received, so you can see what the framework forwards.
 
-Always open the site at **http://localhost:8787**. Opening the origin on port 8788 directly skips StartupAPI.
+Always open the site at **http://localhost:8273**. Opening the origin on port 8274 directly skips StartupAPI.
+
+The playground uses ports 8273–8276 (worker, origin and their debugger ports) so it doesn't clash with other Workers projects on wrangler's default 8787. `npm run dev` stops with an error if one of them is taken.
 
 This project is for local testing only. It isn't deployed anywhere.
 
@@ -55,20 +57,20 @@ To try a new framework option, add it to the `createStartupAPI` config in [src/i
 
 At least one login provider has to work locally.
 
-**Google, Twitch or Patreon** (simplest): register an OAuth app with the provider, add the redirect URI `http://localhost:8787/users/auth/<provider>/callback` (for example `.../auth/google/callback`), and put the client id and secret in `.dev.vars`. The provider is enabled once its credentials are set. The links to each provider's developer console are in [.dev.vars.example](.dev.vars.example).
+**Google, Twitch or Patreon** (simplest): register an OAuth app with the provider, add the redirect URI `http://localhost:8273/users/auth/<provider>/callback` (for example `.../auth/google/callback`), and put the client id and secret in `.dev.vars`. The provider is enabled once its credentials are set. The links to each provider's developer console are in [.dev.vars.example](.dev.vars.example).
 
 **AT Protocol (Bluesky)** needs no app registration, but it doesn't work on plain `localhost`: the user's atproto server has to fetch the worker's client metadata over public HTTPS. Run a tunnel such as a [Cloudflare quick tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/), set `AUTH_ORIGIN` in `.dev.vars` to the tunnel's `https://` URL, restart `npm run dev`, and open the site through the tunnel URL. _This path hasn't been tested with the playground yet._
 
 ```bash
-cloudflared tunnel --url http://localhost:8787
+cloudflared tunnel --url http://localhost:8273
 ```
 
 ### Admin access
 
-The admin dashboard is at http://localhost:8787/users/admin/. To get access:
+The admin dashboard is at http://localhost:8273/users/admin/. To get access:
 
 1. Log in.
-2. Open http://localhost:8787/users/api/me and copy `profile.id`.
+2. Open http://localhost:8273/users/api/me and copy `profile.id`.
 3. Set `ADMIN_IDS` in `.dev.vars` to that id and restart `npm run dev`.
 
 Admins pass every access-policy rule. To see a rule deny access, impersonate a regular user from the dashboard's user list, or use a second browser profile.

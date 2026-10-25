@@ -39,7 +39,7 @@ function render(request: Request, path: string): string {
   const headers = startupApiHeaders(request);
   const rows = headers.length
     ? headers.map(([name, value]) => `<tr><th>${escapeHtml(name)}</th><td><code>${escapeHtml(value)}</code></td></tr>`).join('')
-    : '<tr><td colspan="2">No <code>X-StartupAPI-*</code> headers. Open this page through the worker at http://localhost:8787.</td></tr>';
+    : '<tr><td colspan="2">No <code>X-StartupAPI-*</code> headers. Open this page through the worker at http://localhost:8273.</td></tr>';
   const nav = PAGES.map((p) => `<a href="${p.path}"${p.path === path ? ' aria-current="page"' : ''}>${p.title}</a>`).join('');
 
   return `<!doctype html>

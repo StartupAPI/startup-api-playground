@@ -5,12 +5,30 @@
  *    local checkout (see README.md).
  * 2. Re-sync the framework's static assets (`public/users/**`) from that package, so edits to the
  *    framework's admin and power-strip files show up on restart.
- * 3. Start the origin app (origin/, port 8788) and the StartupAPI worker (port 8787) together, and
- *    stop both when either exits or on Ctrl+C.
+ * 3. Check that the playground's ports are free, then start the StartupAPI worker and the origin
+ *    app (origin/) together, and stop both when either exits or on Ctrl+C.
  */
 import { lstatSync, readFileSync, realpathSync } from 'node:fs';
 import { spawn, spawnSync } from 'node:child_process';
+import { createServer } from 'node:net';
 import { join } from 'node:path';
+
+// The HTTP ports are set in wrangler.jsonc and origin/wrangler.jsonc; keep them in sync with these.
+const PORTS = {
+  worker: 8273,
+  origin: 8274,
+  workerInspector: 8275,
+  originInspector: 8276,
+};
+
+function isPortFree(port) {
+  return new Promise((resolve) => {
+    const server = createServer()
+      .once('error', () => resolve(false))
+      .once('listening', () => server.close(() => resolve(true)));
+    server.listen(port, '127.0.0.1');
+  });
+}
 
 const pkgDir = join(process.cwd(), 'node_modules', '@startup-api', 'cloudflare');
 let linked = false;
@@ -30,14 +48,23 @@ if (linked) {
   );
 }
 
+const busy = [];
+for (const [name, port] of Object.entries(PORTS)) {
+  if (!(await isPortFree(port))) busy.push(`${port} (${name})`);
+}
+if (busy.length) {
+  console.error(`[dev] Port already in use: ${busy.join(', ')}. Stop whatever is using it, e.g. another \`npm run dev\`.`);
+  process.exit(1);
+}
+
 const sync = spawnSync(process.execPath, ['scripts/sync-assets.mjs'], { stdio: 'inherit' });
 if (sync.status !== 0) process.exit(sync.status ?? 1);
 
 const wrangler = join('node_modules', '.bin', 'wrangler');
 const children = [
-  // Separate inspector ports: two `wrangler dev` processes can't share the default one.
-  spawn(wrangler, ['dev', '-c', 'origin/wrangler.jsonc', '--inspector-port', '9230'], { stdio: 'inherit' }),
-  spawn(wrangler, ['dev', '--inspector-port', '9229'], { stdio: 'inherit' }),
+  // Each `wrangler dev` needs its own inspector (debugger) port.
+  spawn(wrangler, ['dev', '-c', 'origin/wrangler.jsonc', '--inspector-port', String(PORTS.originInspector)], { stdio: 'inherit' }),
+  spawn(wrangler, ['dev', '--inspector-port', String(PORTS.workerInspector)], { stdio: 'inherit' }),
 ];
 
 let stopping = false;
