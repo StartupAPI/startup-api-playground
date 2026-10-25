@@ -59,11 +59,7 @@ At least one login provider has to work locally.
 
 **Google, Twitch or Patreon** (simplest): register an OAuth app with the provider, add the redirect URI `http://localhost:8273/users/auth/<provider>/callback` (for example `.../auth/google/callback`), and put the client id and secret in `.dev.vars`. The provider is enabled once its credentials are set. The links to each provider's developer console are in [.dev.vars.example](.dev.vars.example).
 
-**AT Protocol (Bluesky)** needs no app registration, but it doesn't work on plain `localhost`: the user's atproto server has to fetch the worker's client metadata over public HTTPS. Run a tunnel such as a [Cloudflare quick tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/), set `AUTH_ORIGIN` in `.dev.vars` to the tunnel's `https://` URL, restart `npm run dev`, and open the site through the tunnel URL. _This path hasn't been tested with the playground yet._
-
-```bash
-cloudflared tunnel --url http://localhost:8273
-```
+**AT Protocol (Bluesky)** needs no app registration and no credentials. On localhost the framework uses atproto's [localhost client](https://atproto.com/specs/oauth#localhost-client-development) mode, which needs a framework checkout with that support (version 0.7.1 or later). The spec requires an IP address in the redirect URI, so the login moves you from `localhost:8273` to **http://127.0.0.1:8273**, and you stay logged in there. Browse the playground at `127.0.0.1:8273` when you use atproto. Cookies are per host, so `localhost` and `127.0.0.1` have separate sessions.
 
 ### Admin access
 

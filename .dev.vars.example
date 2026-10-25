@@ -20,10 +20,6 @@ SESSION_SECRET=""
 # restart `npm run dev`.
 # ADMIN_IDS=""
 
-# Public HTTPS URL of a tunnel to http://localhost:8273, for logging in with
-# atproto (see README.md). Leave unset when using http://localhost:8273 directly.
-# AUTH_ORIGIN=""
-
 # --- Auth providers (optional) --------------------------------------------
 # Set a provider's client id + secret to enable it. The provider is then
 # configured in src/index.ts under `providers`.
@@ -46,7 +42,8 @@ SESSION_SECRET=""
 # PATREON_WEBHOOK_SECRET=""
 
 # AT Protocol / Atmosphere (Bluesky) — a public OAuth client: no client id/secret.
-# Already enabled in src/index.ts. Needs a public HTTPS URL (AUTH_ORIGIN above).
+# Already enabled in src/index.ts. Logging in moves you to http://127.0.0.1:8273
+# (see README.md).
 
 # --- Other per-deployment values (optional) -------------------------------
 
