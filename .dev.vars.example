@@ -52,6 +52,3 @@ SESSION_SECRET=""
 
 # Path used to serve internal assets like power-strip.js (default /users/).
 # USERS_PATH="/users/"
-
-# Comma-separated admin user IDs.
-# ADMIN_IDS=""
