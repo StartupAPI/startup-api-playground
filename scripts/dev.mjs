@@ -1,6 +1,9 @@
 /**
  * `npm run dev`: run the playground locally.
  *
+ * 0. Create `.dev.vars` from `.dev.vars.example` with a random SESSION_SECRET when it's missing,
+ *    and stop when SESSION_SECRET is empty. Without it the worker doesn't proxy at all and only
+ *    serves the framework's landing page.
  * 1. Warn when `@startup-api/cloudflare` is the published package instead of an `npm link` to a
  *    local checkout (see README.md).
  * 2. Re-sync the framework's static assets (`public/users/**`) from that package, so edits to the
@@ -8,7 +11,8 @@
  * 3. Check that the playground's ports are free, then start the StartupAPI worker and the origin
  *    app (origin/) together, and stop both when either exits or on Ctrl+C.
  */
-import { lstatSync, readFileSync, realpathSync } from 'node:fs';
+import { existsSync, lstatSync, readFileSync, realpathSync, writeFileSync } from 'node:fs';
+import { randomBytes } from 'node:crypto';
 import { spawn, spawnSync } from 'node:child_process';
 import { createServer } from 'node:net';
 import { join } from 'node:path';
@@ -28,6 +32,17 @@ function isPortFree(port) {
       .once('listening', () => server.close(() => resolve(true)));
     server.listen(port, '127.0.0.1');
   });
+}
+
+if (!existsSync('.dev.vars')) {
+  const secret = randomBytes(32).toString('hex');
+  writeFileSync('.dev.vars', readFileSync('.dev.vars.example', 'utf8').replace(/^SESSION_SECRET=.*$/m, `SESSION_SECRET="${secret}"`));
+  console.log('[dev] Created .dev.vars from .dev.vars.example with a random SESSION_SECRET.');
+}
+const sessionSecret = readFileSync('.dev.vars', 'utf8').match(/^SESSION_SECRET=["']?([^"'\n]*)["']?\s*$/m)?.[1];
+if (!sessionSecret) {
+  console.error('[dev] SESSION_SECRET is empty in .dev.vars. Set it to a random string, e.g. the output of `openssl rand -hex 32`.');
+  process.exit(1);
 }
 
 const pkgDir = join(process.cwd(), 'node_modules', '@startup-api', 'cloudflare');

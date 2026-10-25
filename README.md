@@ -31,8 +31,7 @@ cd ../startup-api-playground
 npm install
 npm run link
 
-cp .dev.vars.example .dev.vars   # then set SESSION_SECRET, e.g. to the output of `openssl rand -hex 32`
-npm run dev
+npm run dev   # creates .dev.vars with a random SESSION_SECRET on the first run
 ```
 
 `npm run dev` prints which framework copy it is using:

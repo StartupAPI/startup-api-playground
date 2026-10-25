@@ -1,5 +1,5 @@
-# Copy this file to `.dev.vars` (gitignored) for `npm run dev`, then set
-# SESSION_SECRET to a random string, e.g. the output of `openssl rand -hex 32`.
+# Template for `.dev.vars` (gitignored). `npm run dev` creates `.dev.vars` from
+# this file with a random SESSION_SECRET when it's missing.
 #
 # Environment variables hold ONLY credentials/secrets and per-deployment values.
 # Non-secret behavior (OAuth scopes, Patreon campaign, freshness, access policy)
