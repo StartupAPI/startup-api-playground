@@ -29,8 +29,19 @@ function pageContent(path: string, request: Request): string {
       ? '<p class="ok">✅ <code>pro_reports</code> is enabled: here are the pro reports.</p>'
       : '<p class="no">🔒 <code>pro_reports</code> is not enabled. Put your account on the Pro plan in the admin dashboard.</p>';
   }
-  if (path === '/app/') return '<p class="ok">✅ You are logged in, so the access policy let you in.</p>';
-  if (path === '/beta/') return '<p class="ok">✅ The <code>beta</code> feature is enabled for you.</p>';
+  // Admins pass every access-policy rule, so reaching a gated page doesn't prove the visitor meets
+  // it. Check the forwarded headers, the same way a real app should.
+  const adminNote = 'The access policy let you in anyway because admins pass every rule. Impersonate a regular user to see it deny access.';
+  if (path === '/app/') {
+    return request.headers.get('X-StartupAPI-Authenticated') === 'true'
+      ? '<p class="ok">✅ You are logged in, so the access policy let you in.</p>'
+      : `<p class="no">⚠️ You are not logged in. ${adminNote}</p>`;
+  }
+  if (path === '/beta/') {
+    return features(request).includes('beta')
+      ? '<p class="ok">✅ The <code>beta</code> feature is enabled for you.</p>'
+      : `<p class="no">⚠️ <code>beta</code> is not in <code>X-StartupAPI-Features</code>. ${adminNote}</p>`;
+  }
   return '';
 }
 
