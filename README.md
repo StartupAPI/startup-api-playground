@@ -68,7 +68,7 @@ The admin dashboard is at http://localhost:8273/users/admin/. To get access:
 2. Open http://localhost:8273/users/api/me and copy `profile.id`.
 3. Set `ADMIN_IDS` in `.dev.vars` to that id and restart `npm run dev`.
 
-Admins pass every access-policy rule. To see a rule deny access, impersonate a regular user from the dashboard's user list, or use a second browser profile.
+Admins pass the `/app/` login rule, but feature rules like `/beta/` apply to them too: enable `beta` for yourself in the dashboard to get in. To see the login rule deny access, log out or use a second browser profile.
 
 ## What to try
 
