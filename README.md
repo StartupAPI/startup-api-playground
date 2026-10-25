@@ -9,7 +9,7 @@ It has two parts, which `npm run dev` starts together:
 
 Always open the site at **http://localhost:8273**. Opening the origin on port 8274 directly skips StartupAPI.
 
-The playground uses ports 8273–8276 (worker, origin and their debugger ports) so it doesn't clash with other Workers projects on wrangler's default 8787. `npm run dev` stops with an error if one of them is taken.
+The playground uses ports 8273 (worker) and 8274 (origin), with debugger ports 9273 and 9274, so it doesn't clash with other Workers projects on wrangler's default 8787. `npm run dev` stops with an error if one of them is taken.
 
 This project is for local testing only. It isn't deployed anywhere.
 

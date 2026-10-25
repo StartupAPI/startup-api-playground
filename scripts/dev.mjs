@@ -17,8 +17,8 @@ import { join } from 'node:path';
 const PORTS = {
   worker: 8273,
   origin: 8274,
-  workerInspector: 8275,
-  originInspector: 8276,
+  workerInspector: 9273,
+  originInspector: 9274,
 };
 
 function isPortFree(port) {
