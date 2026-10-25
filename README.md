@@ -13,7 +13,7 @@ This project is for local testing only. It isn't deployed anywhere.
 
 ## Setup
 
-You need Node.js 22 or later, and the two repositories side by side:
+You need Node.js 20 or newer, and the two repositories side by side:
 
 ```bash
 git clone https://github.com/StartupAPI/startup-api-cloudflare.git
