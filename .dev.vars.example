@@ -1,0 +1,60 @@
+# Copy this file to `.dev.vars` (gitignored) for `npm run dev`, then set
+# SESSION_SECRET to a random string, e.g. the output of `openssl rand -hex 32`.
+#
+# Environment variables hold ONLY credentials/secrets and per-deployment values.
+# Non-secret behavior (OAuth scopes, Patreon campaign, freshness, access policy)
+# is configured in src/index.ts via the `createStartupAPI` factory.
+
+# --- Required -------------------------------------------------------------
+
+# Signs session cookies. Use a long random string; keep it secret.
+SESSION_SECRET=""
+
+# The origin this worker proxies back to: the playground's origin app (origin/).
+ORIGIN_URL="http://localhost:8788/"
+
+# --- Admin ----------------------------------------------------------------
+
+# Comma-separated user ids with access to the admin dashboard (/users/admin/).
+# Log in once, copy your id from `profile.id` in /users/api/me, add it here and
+# restart `npm run dev`.
+# ADMIN_IDS=""
+
+# Public HTTPS URL of a tunnel to http://localhost:8787, for logging in with
+# atproto (see README.md). Leave unset when using http://localhost:8787 directly.
+# AUTH_ORIGIN=""
+
+# --- Auth providers (optional) --------------------------------------------
+# Set a provider's client id + secret to enable it. The provider is then
+# configured in src/index.ts under `providers`.
+
+# Google — https://console.cloud.google.com/ (APIs & Services > Credentials)
+# Redirect URI: http://localhost:8787/users/auth/google/callback
+# GOOGLE_CLIENT_ID=""
+# GOOGLE_CLIENT_SECRET=""
+
+# Twitch — https://dev.twitch.tv/console
+# Redirect URI: http://localhost:8787/users/auth/twitch/callback
+# TWITCH_CLIENT_ID=""
+# TWITCH_CLIENT_SECRET=""
+
+# Patreon — https://www.patreon.com/portal/registration/register-clients
+# Redirect URI: http://localhost:8787/users/auth/patreon/callback
+# PATREON_CLIENT_ID=""
+# PATREON_CLIENT_SECRET=""
+# Only needed when Patreon webhook freshness is enabled in src/index.ts.
+# PATREON_WEBHOOK_SECRET=""
+
+# AT Protocol / Atmosphere (Bluesky) — a public OAuth client: no client id/secret.
+# Already enabled in src/index.ts. Needs a public HTTPS URL (AUTH_ORIGIN above).
+
+# --- Other per-deployment values (optional) -------------------------------
+
+# Base URL for OAuth redirects (overrides the request origin).
+# AUTH_ORIGIN=""
+
+# Path used to serve internal assets like power-strip.js (default /users/).
+# USERS_PATH="/users/"
+
+# Comma-separated admin user IDs.
+# ADMIN_IDS=""

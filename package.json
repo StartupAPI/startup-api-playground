@@ -1,0 +1,21 @@
+{
+  "name": "startup-api-playground",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "postinstall": "node scripts/sync-assets.mjs",
+    "dev": "node scripts/dev.mjs",
+    "link": "npm link @startup-api/cloudflare",
+    "unlink": "npm unlink @startup-api/cloudflare && npm install",
+    "sync-assets": "node scripts/sync-assets.mjs",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@startup-api/cloudflare": "^0.7.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.60.0"
+  },
+  "description": "Local playground for developing and testing the StartupAPI framework (@startup-api/cloudflare)"
+}

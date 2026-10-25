@@ -1,0 +1,14 @@
+/**
+ * The playground's origin app: the "your application" side that the StartupAPI worker proxies to.
+ * It runs next to the worker during `npm run dev` (on port 8788) and shows what StartupAPI
+ * forwards to an origin. It is never deployed.
+ */
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "startup-api-playground-origin",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-09-27",
+  "dev": {
+    "port": 8788,
+  },
+}
